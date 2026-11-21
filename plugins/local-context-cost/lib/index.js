@@ -1,4 +1,4 @@
-export const name = 'local-context-cost'
+export const name = 'dsh-go-context-cost'
 
 import { createHash, createHmac } from 'node:crypto'
 import { readFileSync } from 'node:fs'
@@ -264,3 +264,5 @@ export function apply(ctx) {
     })
   })
 }
+
+export { buildCost }

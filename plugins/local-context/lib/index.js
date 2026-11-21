@@ -1,4 +1,4 @@
-export const name = 'local-context'
+export const name = 'dsh-go-context'
 
 import { createHash, createHmac } from 'node:crypto'
 import { readFileSync } from 'node:fs'
@@ -410,8 +410,41 @@ function buildOverview(value, ver, zh) {
 
 const zhOf = (locale) => !String(locale || 'zh').startsWith('en')
 
+function contextMarkdown(tl, detail, all, ver, zh) {
+  const current = buildData(tl, zh)
+  const trend = buildTrend(detail, zh)
+  const overview = buildOverview(all, ver, zh)
+  const lines = [zh ? '# 上下文报告' : '# Context report', '', '## ' + (zh ? '当前上下文' : 'Current context'), current.summary || current.note]
+  for (const row of current.kv || []) lines.push('- ' + row[0] + '：' + row[1])
+  lines.push('', '### ' + (zh ? '构成' : 'Composition'))
+  for (let i = 0; i < 6; i++) lines.push('- ' + current['n' + i] + '：' + current['c' + i])
+  lines.push('', '## ' + (zh ? '上下文演变' : 'Evolution'), trend.summary || trend.note)
+  for (const row of (trend.rowsReq || []).slice(0, 8)) lines.push('- ' + row.title + ' · ' + (row.subtitle || '') + (row.trailing ? ' · ' + row.trailing : ''))
+  lines.push('', '### ' + (zh ? '最近事件' : 'Recent events'))
+  for (const row of (trend.rowsEv || []).slice(0, 8)) lines.push('- ' + row.title + (row.subtitle ? ' · ' + row.subtitle : '') + (row.trailing ? ' · ' + row.trailing : ''))
+  lines.push('', '## ' + (zh ? '用量总览' : 'Usage overview'), overview.summary || overview.note)
+  return lines.join('\n').slice(0, 7800)
+}
+
 export function apply(ctx) {
   ctx.inject(['dshGo'], (ctx) => {
+    ctx.dshGo.on('ctx-report', (scope, event) => {
+      const zh = zhOf(event?.locale)
+      const sid = scope?.sessionId
+      if (!sid) return { toast: zh ? '没有当前会话' : 'No session' }
+      return {
+        pending: { label: zh ? '正在生成报告' : 'Preparing report', timeoutMs: 30000 },
+        result: async () => {
+          const [tl, detail, snapshot] = await Promise.all([
+            timelineOf(sid),
+            post('/api/dsh-context/detail', { sessionId: sid }),
+            post('/api/dsh-context/snapshot', {}),
+          ])
+          return { copy: contextMarkdown(tl, detail.value || {}, snapshot.value || {}, null, zh), toast: zh ? '已复制上下文报告' : 'Report copied' }
+        },
+      }
+    })
+
     ctx.dshGo.strip('ctx-strip', (scope, emit, caps) => {
       const zh = zhOf(caps?.locale)
       let stopped = false
@@ -713,3 +746,5 @@ export function apply(ctx) {
     })
   })
 }
+
+export { buildData, buildOverview, buildTrend, buildInsights, contextMarkdown }

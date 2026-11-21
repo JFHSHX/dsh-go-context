@@ -1,4 +1,4 @@
 # id: any unique id; name: must equal "name" in package.json.
 - insert:
-    - id: local-context-cost
-      name: local-context-cost
+    - id: dsh-go-context-cost
+      name: dsh-go-context-cost

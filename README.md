@@ -1,58 +1,67 @@
 # dsh-go-context
 
-把 [dsh-context](https://github.com/bowenliang123/dsh-context) 的上下文与花费洞察带进 [dsh-go](https://github.com/) 手机 App 的**原生界面**——全部数据走引擎本机回环的 dsh-context 宿主 API，不依赖网页版渲染。
+把 [dsh-context](https://github.com/bowenliang123/dsh-context) 的上下文、团队活动和花费洞察带进 **dsh-go 手机 App 原生界面**。数据走引擎本机回环的 dsh-context 宿主 API，不依赖网页版渲染。
 
-## 功能
+## npm 安装
 
-**local-context**（上下文洞察）
+```sh
+dsh plugin --profile web add dsh-context
+dsh plugin --profile web add dsh-go-context
+dsh plugin --profile web add dsh-go-context-cost
+dsh plugin --profile web add dsh-go-context-activity
+```
 
-| 入口 | 内容 |
+安装后新对话即可看到胶囊；如果升级过插件代码，请在 App「引擎」页重启引擎。
+
+## 三个 npm 包
+
+| 包 | 原生能力 |
 | --- | --- |
-| 状态条 | 输入框上方常显当前会话上下文用量（如 `上下文 171k/1M · 17%`），30 秒自刷新 |
-| 胶囊「上下文」 | 打开「上下文洞察」面板 |
-| 上下文洞察 | 已用/窗口、六项构成（系统/技能/注入/用户/助手/工具）、缓存命中率、输出速度、回合步骤、成本 |
-| 用量总览 | 今日 tokens、活跃会话、近 7 天用量、最近会话 Top5 |
-| 上下文演变 | 逐请求上下文增长（delta/缓存命中/时间）+ 最近 20 条上下文事件流 |
-| 全部洞察 | 跨会话 KPI（79.6M tokens 级聚合）、8 项构成、高频工具 Top8、近 7 天 |
+| [`dsh-go-context`](https://www.npmjs.com/package/dsh-go-context) | 上下文状态条、上下文洞察、用量总览、上下文演变、全部洞察、Markdown 上下文报告 |
+| [`dsh-go-context-cost`](https://www.npmjs.com/package/dsh-go-context-cost) | 今日/近 7 天/累计/本会话花费、每日对比、会话 Top5、按模型 tokens |
+| [`dsh-go-context-activity`](https://www.npmjs.com/package/dsh-go-context-activity) | Agent 网络、文件活动、命令执行、Markdown 活动报告 |
 
-**local-context-cost**（花费统计）
+每个面板都有「刷新」和「复制摘要」。会话类面板在对话详情「插件」页签或「全部功能」中打开，全局面板也可从「全部功能」进入。
 
-| 入口 | 内容 |
-| --- | --- |
-| 胶囊「花费」 | 打开「花费统计」面板 |
-| 花费统计 | 今日 / 近 7 天 / 累计 / 本会话花费，每日花费条形对比，会话花费 Top5，按模型计费 tokens |
-
-所有面板均带「刷新」与「复制摘要」。
-
-## 要求
-
-- DSH `>=0.2.1-rc.2`（在 `0.2.2-rc.1` 实测），dsh-go 桥（手机本机引擎）
-- 宿主已安装 [dsh-context](https://www.npmjs.com/package/dsh-context) `>=0.84`：`dsh plugin --profile web add dsh-context`
-
-## 安装
+## 从源码安装
 
 ```sh
 git clone https://github.com/JFHSHX/dsh-go-context
-mkdir -p ~/.dsh/dsh-go/plugins
-cp -r dsh-go-context/plugins/* ~/.dsh/dsh-go/plugins/
-dsh plugin --profile web add ~/.dsh/dsh-go/plugins/local-context
-dsh plugin --profile web add ~/.dsh/dsh-go/plugins/local-context-cost
+cd dsh-go-context
+./install.sh
 ```
 
-安装的是指向目录的链接，目录不能删。改了 `lib/` 代码要在 App「引擎」页重启引擎生效。
+源码安装会把 `plugins/` 下的三个目录链接进 web profile，目录不能删除。
+
+## 要求
+
+- DSH `>=0.2.1-rc.2`（在 `0.2.2-rc.1` 实测）
+- dsh-go 桥（手机本机引擎）
+- dsh-context `>=0.84`
 
 ## 数据与隐私
 
-插件在引擎内运行，仅向 `127.0.0.1` 的 dsh-context API 发请求；运行时从本机 `$DSH_HOME/.credentials.yaml` 读取会话密钥 HMAC 签名 cookie，凭据不落盘、不外发、不写日志。
+插件只在引擎内向 `127.0.0.1` 的 dsh-context API 发请求。运行时从 `$DSH_HOME/.credentials.yaml` 读取会话密钥并 HMAC 签名 cookie；凭据不落盘、不外发、不写日志。命令面板只显示描述、状态和输出大小，不展示完整命令内容。
 
 ## 已知限制
 
-- dsh-go App 鉴权层会偶发拒绝合法会话 cookie（约 50%），插件已内置 4 次退避重试兜底
-- 面板数据 30–60 秒轮询；某轮失败会保留上次数据，下一轮自愈
+- dsh-go App 鉴权层偶发拒绝合法会话 cookie，插件内置 4 次退避重试。
+- 面板每 30–60 秒轮询；一轮失败会保留上次数据，下一轮自愈。
+- 原生视图只保留最近列表项，不还原网页版的复杂图形编辑器。
+
+## 开发
+
+```sh
+npm test
+npm run check:syntax
+npm run check:plugins   # 需要本机 dsh-go-plugin 技能检查器
+```
+
+单元测试不访问网络。GitHub Actions 会执行语法检查和全部单元测试。
 
 ## 致谢
 
-- [bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context)（MIT）——所有统计与计价均来自其宿主端计算
+[bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context)（MIT）提供全部统计与计价。
 
 ## License
 

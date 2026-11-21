@@ -1,0 +1,114 @@
+{
+  "name": "dsh-go-context-activity",
+  "version": "0.2.0",
+  "description": "Native dsh-go agent fleet, file activity and command execution panels powered by dsh-context",
+  "license": "MIT",
+  "author": "JFHSHX",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JFHSHX/dsh-go-context.git",
+    "directory": "plugins/local-context-activity"
+  },
+  "homepage": "https://github.com/JFHSHX/dsh-go-context#readme",
+  "bugs": "https://github.com/JFHSHX/dsh-go-context/issues",
+  "keywords": ["deepseek-harness", "dsh-go", "dsh-context", "context", "plugin"],
+  "publishConfig": { "registry": "https://registry.npmjs.org" },
+  "type": "module",
+  "main": "lib/index.js",
+  "files": ["lib/", "cordis.patch.yml", "README.md", "LICENSE"],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2 <0.3.0-0"
+  },
+  "dshGo": {
+    "v": 1,
+    "title": {
+      "zh": "活动与团队",
+      "en": "Activity"
+    },
+    "icon": "team",
+    "contributes": {
+      "composer.actions": [
+        {
+          "id": "ctxa-fleet-open",
+          "label": {
+            "zh": "团队",
+            "en": "Agents"
+          },
+          "icon": "team",
+          "effect": {
+            "type": "open",
+            "page": "panel:ctxa-fleet"
+          }
+        },
+        {
+          "id": "ctxa-files-open",
+          "label": {
+            "zh": "活动",
+            "en": "Activity"
+          },
+          "icon": "file",
+          "effect": {
+            "type": "open",
+            "page": "panel:ctxa-files"
+          }
+        }
+      ],
+      "session.actions": [
+        {
+          "id": "ctxa-report",
+          "label": {
+            "zh": "复制活动报告",
+            "en": "Copy report"
+          },
+          "icon": "copy"
+        }
+      ],
+      "panels": [
+        {
+          "id": "ctxa-fleet",
+          "title": {
+            "zh": "Agent 网络",
+            "en": "Agent fleet"
+          },
+          "icon": "team",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        },
+        {
+          "id": "ctxa-files",
+          "title": {
+            "zh": "文件活动",
+            "en": "File activity"
+          },
+          "icon": "file",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        },
+        {
+          "id": "ctxa-commands",
+          "title": {
+            "zh": "命令执行",
+            "en": "Commands"
+          },
+          "icon": "terminal",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        }
+      ]
+    }
+  }
+}

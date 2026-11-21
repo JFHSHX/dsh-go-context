@@ -1,9 +1,21 @@
 {
-  "name": "local-context",
-  "version": "0.1.0",
-  "private": true,
+  "name": "dsh-go-context",
+  "version": "0.2.0",
+  "description": "Native dsh-go context insights, usage trends and Markdown reports powered by dsh-context",
+  "license": "MIT",
+  "author": "JFHSHX",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JFHSHX/dsh-go-context.git",
+    "directory": "plugins/local-context"
+  },
+  "homepage": "https://github.com/JFHSHX/dsh-go-context#readme",
+  "bugs": "https://github.com/JFHSHX/dsh-go-context/issues",
+  "keywords": ["deepseek-harness", "dsh-go", "dsh-context", "context", "plugin"],
+  "publishConfig": { "registry": "https://registry.npmjs.org" },
   "type": "module",
   "main": "lib/index.js",
+  "files": ["lib/", "cordis.patch.yml", "README.md", "LICENSE"],
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
@@ -46,7 +58,10 @@
           }
         }
       ],
-      "composer.strip": [
+      "session.actions": [
+      { "id": "ctx-report", "label": { "zh": "复制上下文报告", "en": "Copy report" }, "icon": "copy" }
+    ],
+    "composer.strip": [
         {
           "id": "ctx-strip",
           "icon": "chart",
