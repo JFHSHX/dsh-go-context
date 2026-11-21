@@ -1,0 +1,112 @@
+{
+  "name": "local-context",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2 <0.3.0-0"
+  },
+  "dshGo": {
+    "v": 1,
+    "title": {
+      "zh": "上下文洞察",
+      "en": "Context"
+    },
+    "icon": "chart",
+    "contributes": {
+      "composer.actions": [
+        {
+          "id": "ctx-open",
+          "label": {
+            "zh": "上下文",
+            "en": "Context"
+          },
+          "icon": "chart",
+          "effect": {
+            "type": "open",
+            "page": "panel:ctx-panel"
+          }
+        },
+        {
+          "id": "ctx-overview-open",
+          "label": {
+            "zh": "总览",
+            "en": "Overview"
+          },
+          "icon": "history",
+          "effect": {
+            "type": "open",
+            "page": "panel:ctx-overview"
+          }
+        }
+      ],
+      "composer.strip": [
+        {
+          "id": "ctx-strip",
+          "icon": "chart",
+          "panel": "ctx-panel"
+        }
+      ],
+      "panels": [
+        {
+          "id": "ctx-panel",
+          "title": {
+            "zh": "上下文洞察",
+            "en": "Context"
+          },
+          "icon": "chart",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        },
+        {
+          "id": "ctx-overview",
+          "title": {
+            "zh": "用量总览",
+            "en": "Usage"
+          },
+          "icon": "history",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        },
+        {
+          "id": "ctx-trend",
+          "title": {
+            "zh": "上下文演变",
+            "en": "Evolution"
+          },
+          "icon": "trajectory",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        },
+        {
+          "id": "ctx-insights",
+          "title": {
+            "zh": "全部洞察",
+            "en": "Insights"
+          },
+          "icon": "lightbulb",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "local-context-cost",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "lib/index.js",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2 <0.3.0-0"
+  },
+  "dshGo": {
+    "v": 1,
+    "title": {
+      "zh": "花费统计",
+      "en": "Cost"
+    },
+    "icon": "wallet",
+    "contributes": {
+      "composer.actions": [
+        {
+          "id": "cost-open",
+          "label": {
+            "zh": "花费",
+            "en": "Cost"
+          },
+          "icon": "wallet",
+          "effect": {
+            "type": "open",
+            "page": "panel:ctxc-cost"
+          }
+        }
+      ],
+      "panels": [
+        {
+          "id": "ctxc-cost",
+          "title": {
+            "zh": "花费统计",
+            "en": "Cost"
+          },
+          "icon": "wallet",
+          "placement": [
+            "session.tab",
+            "features",
+            "chat.panel"
+          ]
+        }
+      ]
+    }
+  }
+}
