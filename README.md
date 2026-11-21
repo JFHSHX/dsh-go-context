@@ -7,11 +7,9 @@
 ```sh
 dsh plugin --profile web add dsh-context
 dsh plugin --profile web add dsh-go-context
-dsh plugin --profile web add dsh-go-context-cost
-dsh plugin --profile web add dsh-go-context-activity
 ```
 
-安装后新对话即可看到胶囊；如果升级过插件代码，请在 App「引擎」页重启引擎。
+`dsh-go-context` 是三合一主包，会自动安装并加载 `dsh-go-context-cost` 和 `dsh-go-context-activity`。安装后新对话即可看到胶囊；如果升级过插件代码，请在 App「引擎」页重启引擎。
 
 ## 三个 npm 包
 

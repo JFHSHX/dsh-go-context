@@ -1,4 +1,8 @@
-# id: any unique id; name: must equal "name" in package.json.
+# One install loads the main plugin plus both bundled dependencies.
 - insert:
     - id: dsh-go-context
       name: dsh-go-context
+    - id: dsh-go-context-cost
+      name: dsh-go-context-cost
+    - id: dsh-go-context-activity
+      name: dsh-go-context-activity

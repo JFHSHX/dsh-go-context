@@ -1,6 +1,6 @@
 {
   "name": "dsh-go-context",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Native dsh-go context insights, usage trends and Markdown reports powered by dsh-context",
   "license": "MIT",
   "author": "JFHSHX",
@@ -20,6 +20,10 @@
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
+  },
+  "dependencies": {
+    "dsh-go-context-cost": "0.2.0",
+    "dsh-go-context-activity": "0.2.0"
   },
   "engines": {
     "dsh": ">=0.2.1-rc.2 <0.3.0-0"

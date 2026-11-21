@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+- dsh-go-context 改为三合一入口：安装主包即自动加载花费统计、活动与团队两个依赖。
+- 三个 Cordis loader 条目由主包 patch 统一声明，保留全部 8 个原生面板。
+
 ## 0.2.0
 
 - 新增 dsh-go-context-activity：Agent 网络、文件活动、命令执行三个原生面板。

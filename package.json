@@ -1,11 +1,12 @@
 {
   "name": "dsh-go-context",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
     "check:syntax": "node --check plugins/local-context/lib/index.js && node --check plugins/local-context-cost/lib/index.js && node --check plugins/local-context-activity/lib/index.js",
-    "check:plugins": "node scripts/check-plugins.mjs"
+    "check:plugins": "node scripts/check-plugins.mjs",
+    "publish:npm": "sh scripts/publish-npm.sh"
   }
 }
